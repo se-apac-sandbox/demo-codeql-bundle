@@ -86,6 +86,8 @@ jobs:
                 done
 
                 # Rebuild cache
+                echo $qllib_path 
+                cat $qllib_path/Customizations.qll
                 rm -r $qlquery_path/.cache
                 # codeql/codeql query compile --search-path codeql --threads 0 $qlquery_path
               else
