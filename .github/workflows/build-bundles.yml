@@ -66,7 +66,8 @@ jobs:
               qlquery_version=$(ls codeql/qlpacks/codeql/$lang-queries)
               qlquery_path=codeql/qlpacks/codeql/$lang-queries/$qlquery_version
             fi
-
+             echo $qllib_path 
+             cat $qllib_path/Customizations.qll
             if [ -d $qllib_path ]; then
               if [ ! -f $qllib_path/Customizations.qll ] && [ "$FORCE_CUSTOMIZATION" = "true" ]; then
                 echo "::warning::Forcing customization for language $lang"
@@ -86,8 +87,6 @@ jobs:
                 done
 
                 # Rebuild cache
-                echo $qllib_path 
-                cat $qllib_path/Customizations.qll
                 rm -r $qlquery_path/.cache
                 # codeql/codeql query compile --search-path codeql --threads 0 $qlquery_path
               else
