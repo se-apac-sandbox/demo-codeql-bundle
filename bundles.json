@@ -1,6 +1,5 @@
 {
     "bundle": [
-        "codeql-bundle-20211005",
-        "codeql-bundle-20211208"
+        "codeql-bundle-20220214"
     ]
 }
