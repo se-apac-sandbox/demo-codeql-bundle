@@ -1,4 +1,4 @@
-name: "Custom CodeQL bundles"
+name: "Custom CodeQL bundles - update 1"
 
 on:
   pull_request:
