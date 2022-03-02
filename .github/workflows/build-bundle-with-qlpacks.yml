@@ -1,0 +1,102 @@
+name: "Custom CodeQL bundles"
+
+on:
+  pull_request:
+    paths:
+      - "customizations/**"
+      - "bundles.json"
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  FORCE_CUSTOMIZATION: "false"
+
+jobs:
+  prepare-bundles-matrix:
+    name: "Prepare CodeQL bundle matrix"
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.export-bundle-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Export CodeQL bundle matrix
+        id: export-bundle-matrix
+        run: |
+          echo "::set-output name=matrix::$(
+            jq --compact-output . bundles.json
+          )"
+
+  build-bundles:
+    name: "Build custom CodeQL bundles"
+    needs: prepare-bundles-matrix
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare-bundles-matrix.outputs.matrix) }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: "Build custom CodeQL bundle"
+        env:
+          CODEQL_BUNDLE: ${{ matrix.bundle }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          gh release --repo github/codeql-action download -p codeql-bundle.tar.gz $CODEQL_BUNDLE
+
+          tar xf codeql-bundle.tar.gz
+          rm codeql-bundle.tar.gz
+
+          for lang_path in customizations/*; do
+            # Copy custom modules
+            lang=${lang_path##*/}
+
+            
+            if [ -d codeql/qlpacks/codeql-$lang-lib ]; then
+              qllib_path=codeql/qlpacks/codeql-$lang-lib
+              qlquery_path=codeql/qlpacks/codeql-$lang
+            else
+              qllib_version=$(ls codeql/qlpacks/codeql/$lang-all)
+              qllib_path=codeql/qlpacks/codeql/$lang-all/$qllib_version
+              qlquery_version=$(ls codeql/qlpacks/codeql/$lang-queries)
+              qlquery_path=codeql/qlpacks/codeql/$lang-queries/$qlquery_version
+            fi
+
+            if [ -d $qllib_path ]; then
+              if [ ! -f $qllib_path/Customizations.qll ] && [ "$FORCE_CUSTOMIZATION" = "true" ]; then
+                echo "::warning::Forcing customization for language $lang"
+                echo "import $lang" > $qllib_path/Customizations.qll
+                sed -i -e '0,/^import/s//private import Customizations\nimport/' $qllib_path/$lang.qll
+              fi
+
+              if [ -f $qllib_path/Customizations.qll ]; then
+                mkdir $qllib_path/customizations
+                cp $lang_path/*.qll $qllib_path/customizations
+
+                # Import custom modules
+                for module_path in $lang_path/*.qll; do
+                  module_file=${module_path##*/}
+                  module_name=${module_file%.*}
+                  echo "import customizations.$module_name" >> $qllib_path/Customizations.qll
+                done
+
+                # Rebuild cache
+                rm -r $qlquery_path/.cache
+                codeql/codeql query compile --search-path codeql --threads 0 $qlquery_path
+              else
+                echo "::warning::Skipping customization for language $lang, because it doesn't have a Customizations.qll"
+              fi
+            else
+              echo "::error::Unable to customize language $lang, because it is not present in the CodeQL Bundle $CODEQL_BUNDLE"
+            fi
+          done
+
+          tar -czf codeql-bundle.tar.gz codeql
+          rm -r codeql
+
+          gh release create ${CODEQL_BUNDLE}-$(git rev-parse --short $GITHUB_SHA) codeql-bundle.tar.gz
