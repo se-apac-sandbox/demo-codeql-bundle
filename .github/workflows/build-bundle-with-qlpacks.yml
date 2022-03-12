@@ -119,7 +119,7 @@ jobs:
                   echo "Rebuilding cache"
                   # Rebuild cache
                   rm -r $qlquery_path/.cache
-                  codeql/codeql query compile --search-path codeql --threads 0 $qlquery_path
+                  # codeql/codeql query compile --search-path codeql --threads 0 $qlquery_path
                 fi
               else
                 echo "::warning::Skipping customization for language $lang, because it doesn't have a Customizations.qll"
