@@ -47,7 +47,7 @@ jobs:
 
     strategy:
       fail-fast: false
-      matrix: ${{ fromJSON(needs.prepare-bundles-matrix.outputs.matrix) }}
+      matrix: ${{fromJSON(needs.prepare-bundles-matrix.outputs.matrix) }}
 
     steps:
       - name: Checkout repository
@@ -62,6 +62,15 @@ jobs:
           
           tar xf codeql-bundle.tar.gz
           rm codeql-bundle.tar.gz
+          
+          for ql_lang_path in queries/*; do
+            ql_lang=${ql_lang_path##*/}
+            qlquery_path=codeql/qlpacks/codeql/$ql_lang-queries
+            qlquery_ver=${ls codeql/qlpacks/codeql/$ql_lang-queries}
+            ghas_ql_path=$qlquery_path/$qlquery_ver/GHASfield
+            mkdir $ghas_ql_path
+            cp $ql_lang_path/*.ql $ghas_ql_path
+          done  
           
           qlsuite_helper_ver=$(ls codeql/qlpacks/codeql/suite-helpers)
           for suite_helper_file in suite-helpers/*; do
