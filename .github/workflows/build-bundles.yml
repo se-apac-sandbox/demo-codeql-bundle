@@ -1,4 +1,4 @@
-name: "Custom CodeQL bundles"
+name: "Custom CodeQL verification bundle"
 
 on:
   pull_request:
