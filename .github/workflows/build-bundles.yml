@@ -52,6 +52,23 @@ jobs:
           tar xf codeql-bundle.tar.gz
           rm codeql-bundle.tar.gz
 
+          for ql_lang_path in queries/*; do
+            ql_lang=${ql_lang_path##*/}
+            qlquery_path=codeql/qlpacks/codeql/$ql_lang-queries
+            qlquery_ver=$(ls $qlquery_path)
+            ghas_ql_path=$qlquery_path/$qlquery_ver/GHASfield
+            mkdir $ghas_ql_path
+            cp $ql_lang_path/*.ql $ghas_ql_path
+          done  
+          
+          qlsuite_helper_ver=$(ls codeql/qlpacks/codeql/suite-helpers)
+          for suite_helper_file in suite-helpers/*; do
+            s_file=${suite_helper_file##*/} 
+            rm codeql/qlpacks/codeql/suite-helpers/$qlsuite_helper_ver/$s_file
+            mv suite-helpers/$s_file codeql/qlpacks/codeql/suite-helpers/$qlsuite_helper_ver/
+          done
+          
+
           for lang_path in customizations/*; do
             # Copy custom modules
             lang=${lang_path##*/}
@@ -87,7 +104,7 @@ jobs:
 
                 # Rebuild cache
                 rm -r $qlquery_path/.cache
-                codeql/codeql query compile --search-path codeql --threads 0 $qlquery_path
+                # codeql/codeql query compile --search-path codeql --threads 0 $qlquery_path
               else
                 echo "::warning::Skipping customization for language $lang, because it doesn't have a Customizations.qll"
               fi
