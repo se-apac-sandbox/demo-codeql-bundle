@@ -65,8 +65,9 @@ jobs:
           
           qlsuite_helper_ver=$(ls codeql/qlpacks/codeql/suite-helpers)
           for suite_helper_file in suite-helpers/*; do
-            rm codeql/qlpacks/codeql/suite-helpers/$qlsuite_helper_ver/$suite_helper_file
-            mv suite-helpers/$suite_helper_file codeql/qlpacks/codeql/suite-helpers/$qlsuite_helper_ver/
+            s_file=${suite_helper_file##*/} 
+            rm codeql/qlpacks/codeql/suite-helpers/$qlsuite_helper_ver/$s_file
+            mv suite-helpers/$s_file codeql/qlpacks/codeql/suite-helpers/$qlsuite_helper_ver/
           done
           
           for lang_path in customizations/*; do
