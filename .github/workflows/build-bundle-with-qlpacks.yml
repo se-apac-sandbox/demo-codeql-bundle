@@ -59,10 +59,16 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           gh release --repo github/codeql-action download -p codeql-bundle.tar.gz $CODEQL_BUNDLE
-
+          
           tar xf codeql-bundle.tar.gz
           rm codeql-bundle.tar.gz
-
+          
+          qlsuite_helper_ver=$(ls codeql/qlpacks/codeql/suite-helpers)
+          for suite_helper_file in suite-helpers/*; do
+            rm codeql/qlpacks/codeql/suite-helpers/$qlsuite_helper_ver/$suite_helper_file
+            mv suite-helpers/$suite_helper_file codeql/qlpacks/codeql/suite-helpers/$qlsuite_helper_ver/
+          done
+          
           for lang_path in customizations/*; do
             # Copy custom modules
             lang=${lang_path##*/}
