@@ -1,0 +1,4 @@
+- description: Selectors for selecting the security-and-quality queries for a language
+- include:
+    query path:
+      - /^.*/
