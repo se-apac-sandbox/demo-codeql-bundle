@@ -23,8 +23,6 @@ import semmle.python.ApiGraphs
 import DataFlow::PathGraph
 // Extending library
 import semmle.python.security.dataflow.UnsafeDeserializationCustomizations
-// Internal library
-import github.LocalSources
 
 // https://github.com/github/codeql/blob/main/python/ql/lib/semmle/python/security/injection/Pickle.qll
 class CustomUnsafeDeserializationSinks extends UnsafeDeserialization::Sink {

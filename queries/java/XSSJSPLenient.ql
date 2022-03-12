@@ -15,7 +15,6 @@ import semmle.code.java.dataflow.FlowSources
 import semmle.code.java.security.XSS
 import DataFlow::PathGraph
 import semmle.code.java.frameworks.Servlets
-import JSPLocations
 
 class XSSConfig extends TaintTracking::Configuration {
   XSSConfig() { this = "XSSConfig" }

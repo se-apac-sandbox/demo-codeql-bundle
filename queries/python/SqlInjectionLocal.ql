@@ -20,7 +20,6 @@ import semmle.python.dataflow.new.TaintTracking
 import semmle.python.Concepts
 import semmle.python.dataflow.new.BarrierGuards
 import DataFlow::PathGraph
-import github.LocalSources
 
 /**
  * A taint-tracking configuration for detecting SQL injection vulnerabilities.

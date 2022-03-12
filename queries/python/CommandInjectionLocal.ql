@@ -22,7 +22,6 @@ import semmle.python.Concepts
 import semmle.python.dataflow.new.BarrierGuards
 import semmle.python.ApiGraphs
 import DataFlow::PathGraph
-import github.LocalSources
 
 // ========== Configuration ==========
 class CommandInjectionConfiguration extends TaintTracking::Configuration {

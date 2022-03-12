@@ -23,7 +23,6 @@ import semmle.python.Concepts
 import semmle.python.dataflow.new.RemoteFlowSources
 import semmle.python.dataflow.new.BarrierGuards
 import DataFlow::PathGraph
-import github.LocalSources
 
 /**
  * A taint-tracking configuration for detecting code injection vulnerabilities.
