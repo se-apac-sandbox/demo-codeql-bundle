@@ -16,8 +16,8 @@ class HttpSession extends SensitiveInformationSources {
   }
 }
 
-class Properties extends SensitiveInformationSources {
-  Properties() {
+class SensitiveProperties extends SensitiveInformationSources {
+  SensitiveProperties() {
     exists(MethodAccess ma |
       ma.getMethod().hasName("getProperty") and
       this.asExpr() = ma
