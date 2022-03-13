@@ -1,0 +1,16 @@
+- description: Selectors for selecting the security-and-quality queries for a language
+- include:
+    query path:
+      - /^.*/
+- exclude:
+    query path:
+      - /^utils\/.*/
+- exclude:
+    kind:
+      - table
+- exclude:
+    tags contain:
+      - meta
+      - maintainability
+      - summary
+      - /^ide-contextual-queries\/.*/
