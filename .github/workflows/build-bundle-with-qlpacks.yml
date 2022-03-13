@@ -47,7 +47,7 @@ jobs:
 
     strategy:
       fail-fast: false
-      matrix: ${{fromJSON(needs.prepare-bundles-matrix.outputs.matrix) }}
+      matrix: ${{ fromJSON(needs.prepare-bundles-matrix.outputs.matrix) }}
 
     steps:
       - name: Checkout repository
