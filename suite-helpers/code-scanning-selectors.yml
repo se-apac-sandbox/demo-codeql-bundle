@@ -5,7 +5,6 @@
 - exclude:
     query path:
       - /^utils\/.*/
-      - experimental/Security/CWE/CWE-489/devMode.ql
 - exclude:
     kind:
       - table

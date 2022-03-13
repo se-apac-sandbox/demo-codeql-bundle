@@ -1,5 +1,4 @@
 import java
-import semmle.code.java.dataflow.FlowSources
 
 class FileReadAccess extends LocalUserInput {
   FileReadAccess() {
