@@ -52,6 +52,15 @@ jobs:
           tar xf codeql-bundle.tar.gz
           rm codeql-bundle.tar.gz
           
+          for ql_lang_path in queries/*; do
+            ql_lang=${ql_lang_path##*/}
+            qlquery_path=codeql/qlpacks/codeql/$ql_lang-queries
+            qlquery_ver=$(ls $qlquery_path)
+            ghas_ql_path=$qlquery_path/$qlquery_ver/GHASfield
+            mkdir $ghas_ql_path
+            mv $ql_lang_path/* $ghas_ql_path/
+          done  
+
           qlsuite_helper_ver=$(ls codeql/qlpacks/codeql/suite-helpers)
           for suite_helper_file in suite-helpers/*; do
             s_file=${suite_helper_file##*/} 
@@ -118,15 +127,6 @@ jobs:
             fi
           done
           
-          for ql_lang_path in queries/*; do
-            ql_lang=${ql_lang_path##*/}
-            qlquery_path=codeql/qlpacks/codeql/$ql_lang-queries
-            qlquery_ver=$(ls $qlquery_path)
-            ghas_ql_path=$qlquery_path/$qlquery_ver/GHASfield
-            mkdir $ghas_ql_path
-            mv $ql_lang_path/* $ghas_ql_path/
-          done  
-
           tar -czf codeql-bundle.tar.gz codeql
           rm -r codeql
 
