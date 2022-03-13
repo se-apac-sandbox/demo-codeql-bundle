@@ -17,8 +17,8 @@ import semmle.code.java.dataflow.FlowSources
 import semmle.code.java.dataflow.TaintTracking2
 import DataFlow::PathGraph
 // Internal
-import GHASField.github.Logging
-import GHASField.github.SensitiveInformation
+import GHASfield.github.Logging
+import GHASfield.github.SensitiveInformation
 
 class SensitiveInformationLoggingConfig extends TaintTracking::Configuration {
   SensitiveInformationLoggingConfig() { this = "SensitiveInformationLoggingConfig" }
