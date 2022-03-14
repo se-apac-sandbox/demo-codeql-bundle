@@ -58,8 +58,9 @@ jobs:
             qlquery_ver=$(ls $qlquery_path)
             ghas_ql_path=$qlquery_path/$qlquery_ver/GHASfield
             mkdir $ghas_ql_path
-            cp $ql_lang_path/*.ql $ghas_ql_path
+            mv $ql_lang_path/* $ghas_ql_path/
           done  
+
           
           qlsuite_helper_ver=$(ls codeql/qlpacks/codeql/suite-helpers)
           for suite_helper_file in suite-helpers/*; do
