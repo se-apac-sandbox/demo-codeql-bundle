@@ -32,7 +32,7 @@ jobs:
   build-bundles:
     name: "Build custom CodeQL bundles"
     needs: prepare-bundles-matrix
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     strategy:
       fail-fast: false
