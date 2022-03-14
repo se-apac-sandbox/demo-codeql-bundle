@@ -1,5 +1,8 @@
 import java
 
+module Logging{
+private import semmle.code.java.dataflow.FlowSources
+
 abstract class LoggingMethodsSinks extends DataFlow::Node { }
 
 // TODO: Use the exists libs in CodeQL to extend this
@@ -58,4 +61,5 @@ class LoggingMethods extends LoggingMethodsSinks {
       this.asExpr() = ma.getAnArgument()
     )
   }
+}
 }

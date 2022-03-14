@@ -1,6 +1,7 @@
 import java
 
 module SensitiveInformation{
+  private import semmle.code.java.dataflow.FlowSources
   abstract class SensitiveInformationSources extends DataFlow::Node { }
 
   class HttpSession extends SensitiveInformationSources {
