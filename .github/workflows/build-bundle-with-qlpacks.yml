@@ -91,7 +91,8 @@ jobs:
                 sed -i -e '0,/^import/s//private import Customizations\nimport/' $qllib_path/$lang.qll
               fi
 
-              if [ -f $qllib_path/Customizations.qll -a -f $lang_path/*.qll ]; then
+              if [ -f $qllib_path/Customizations.qll ]; then
+                if [ -f $lang_path/*.qll ]; then
                 mkdir $qllib_path/customizations
                 cp $lang_path/*.qll $qllib_path/customizations
 
@@ -101,6 +102,7 @@ jobs:
                   module_name=${module_file%.*}
                   echo "import customizations.$module_name" >> $qllib_path/Customizations.qll
                 done
+                fi
                 
                 if [ using_packs ]
                 then
