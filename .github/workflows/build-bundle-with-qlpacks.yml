@@ -91,7 +91,7 @@ jobs:
                 sed -i -e '0,/^import/s//private import Customizations\nimport/' $qllib_path/$lang.qll
               fi
 
-              if [ -f $qllib_path/Customizations.qll ]; then
+              if [ -f $qllib_path/Customizations.qll -a -f $lang_path/*.qll ]; then
                 mkdir $qllib_path/customizations
                 cp $lang_path/*.qll $qllib_path/customizations
 
