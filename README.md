@@ -17,6 +17,6 @@ Ideally in a code scanning configuration, it is advised to run only the most rel
 | level 2 |    `queries: security-and-quality`   |   1.5x |
 | level 3 |    `tools: https://github.com/amitgupta7/demo-codeql-bundle/releases/download/codeql-bundle-20220224-05c2d67/codeql-bundle.tar.gz`</br>`queries: security-extended`   |   2x |
 | level 4 |    `tools: https://github.com/amitgupta7/demo-codeql-bundle/releases/download/codeql-bundle-20220224-05c2d67/codeql-bundle.tar.gz`   |   5x |
-| level 6 |    `tools: https://github.com/amitgupta7/demo-codeql-bundle/releases/download/codeql-bundle-20220224-05c2d67/codeql-bundle.tar.gz`</br>`queries: security-and-quality`   |   10x |
+| level 5 |    `tools: https://github.com/amitgupta7/demo-codeql-bundle/releases/download/codeql-bundle-20220224-05c2d67/codeql-bundle.tar.gz`</br>`queries: security-and-quality`   |   10x |
 
 Your mileage may vary with this, so use at your own risk. A good starting point may be to use the level 3 or level 4 configuration, and adjust up/down as required. The results may be further refined using query suites (see example [here](https://github.com/amitgupta7/codeql-runall-config)). If you need to export results from github for further analysis/pivoting/comparision see [this](https://github.com/amitgupta7/ghas-reports-action) action.
