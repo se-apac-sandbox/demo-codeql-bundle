@@ -68,12 +68,9 @@ jobs:
             mv suite-helpers/$s_file codeql/qlpacks/codeql/suite-helpers/$qlsuite_helper_ver/
           done
           
-          #for lang_path in customizations/*; do
           for lang_pack_dir in codeql/qlpacks/codeql/*-queries; do
             lang_dir=${lang_pack_dir##*/}
             lang=${lang_dir%-queries}
-            # Copy custom modules
-            #lang=${lang_path##*/}
 
             using_packs=1
             if [ -d codeql/qlpacks/codeql-$lang-lib ]; then
