@@ -5,6 +5,8 @@
 - exclude:
     query path:
       - /^utils\/.*/
+      - /^analysis\/.*/
+      - /^.*PolynomialBackTracking.ql/
 - exclude:
     kind:
       - table
