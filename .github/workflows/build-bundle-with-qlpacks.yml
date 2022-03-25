@@ -71,7 +71,7 @@ jobs:
           for lang_pack_dir in codeql/qlpacks/codeql/*-queries; do
             lang_dir=${lang_pack_dir##*/}
             lang=${lang_dir%-queries}
-
+            echo "::warning::$lang"
             using_packs=1
             if [ -d codeql/qlpacks/codeql-$lang-lib ]; then
               echo "::warning::checkpoint1"
