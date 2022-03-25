@@ -68,9 +68,12 @@ jobs:
             mv suite-helpers/$s_file codeql/qlpacks/codeql/suite-helpers/$qlsuite_helper_ver/
           done
           
-          for lang_path in customizations/*; do
+          #for lang_path in customizations/*; do
+          for lang_pack_dir in codeql/qlpacks/codeql/*-queries; do
+            lang_dir=${lang_pack_dir##*/}
+            lang=${lang_dir%-queries}
             # Copy custom modules
-            lang=${lang_path##*/}
+            #lang=${lang_path##*/}
 
             using_packs=1
             if [ -d codeql/qlpacks/codeql-$lang-lib ]; then
@@ -84,24 +87,25 @@ jobs:
               qlquery_path=codeql/qlpacks/codeql/$lang-queries/$qlquery_version
             fi
 
-            if [ -d $qllib_path ]; then
+            if [ -d $qllib_path -a -d customizations/$lang ]; then
               if [ ! -f $qllib_path/Customizations.qll ] && [ "$FORCE_CUSTOMIZATION" = "true" ]; then
                 echo "::warning::Forcing customization for language $lang"
                 echo "import $lang" > $qllib_path/Customizations.qll
                 sed -i -e '0,/^import/s//private import Customizations\nimport/' $qllib_path/$lang.qll
               fi
 
-              if [ -f $qllib_path/Customizations.qll ]; then
+              if [ -f $qllib_path/Customizations.qll -a -d customizations/$lang ]; then
                 mkdir $qllib_path/customizations
-                cp $lang_path/*.qll $qllib_path/customizations
+                cp customizations/$lang/*.qll $qllib_path/customizations
 
                 # Import custom modules
-                for module_path in $lang_path/*.qll; do
+                for module_path in customizations/$lang/*.qll; do
                   module_file=${module_path##*/}
                   module_name=${module_file%.*}
                   echo "import customizations.$module_name" >> $qllib_path/Customizations.qll
                 done
-                
+               fi
+               
                 if [ using_packs ]
                 then
                   echo "Rebuilding pack at $qlquery_path"
