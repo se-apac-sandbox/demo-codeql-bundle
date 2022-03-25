@@ -1,4 +1,5 @@
 # demo-codeql-bundle
+[![Custom CodeQL bundles - updated](https://github.com/amitgupta7/demo-codeql-bundle/actions/workflows/build-bundle-with-qlpacks.yml/badge.svg)](https://github.com/amitgupta7/demo-codeql-bundle/actions/workflows/build-bundle-with-qlpacks.yml)
 ## Provided as-is where-is for learning purposes only. Support is not available. 
 
 
