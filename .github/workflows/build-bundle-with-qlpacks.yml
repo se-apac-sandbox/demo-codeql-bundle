@@ -77,10 +77,12 @@ jobs:
 
             using_packs=1
             if [ -d codeql/qlpacks/codeql-$lang-lib ]; then
+              echo "::warning::checkpoint1"
               qllib_path=codeql/qlpacks/codeql-$lang-lib
               qlquery_path=codeql/qlpacks/codeql-$lang
               using_packs=0
             else
+              echo "::warning::checkpoint2"
               qllib_version=$(ls codeql/qlpacks/codeql/$lang-all)
               qllib_path=codeql/qlpacks/codeql/$lang-all/$qllib_version
               qlquery_version=$(ls codeql/qlpacks/codeql/$lang-queries)
@@ -97,7 +99,7 @@ jobs:
               if [ -f $qllib_path/Customizations.qll -a -d customizations/$lang ]; then
                 mkdir $qllib_path/customizations
                 cp customizations/$lang/*.qll $qllib_path/customizations
-
+                echo "::warning::checkpoint3"
                 # Import custom modules
                 for module_path in customizations/$lang/*.qll; do
                   module_file=${module_path##*/}
